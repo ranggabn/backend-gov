@@ -12,10 +12,10 @@ app.use(morgan("dev"));
 app.use(cors());
 
 // panggil routes
-var routes = require("./routes");
+var routes = require("./routes/routes");
 routes(app);
 
-app.use("/auth", require("./middleware"));
+app.use("/auth", require("./routes"));
 
 app.listen(process.env.PORT || 3001, function () {
   console.log("Express server listening on port 3001 in dev mode");
