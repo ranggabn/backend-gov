@@ -4,7 +4,7 @@ var jwt = require("jsonwebtoken");
 var config = require("../config/params");
 var ip = require("ip");
 var CryptoJS = require("crypto-js");
-var logger = require("../config/log");
+// var logger = require("../config/log");
 var axios = require("axios-https-proxy-fix");
 const moment = require("moment");
 
@@ -20,7 +20,7 @@ exports.reqistrasi = function (req, res) {
     [username],
     function (error, rows) {
       if (error) {
-        logger.error("Registrasi : " + error);
+        //logger.error("Registrasi : " + error);
       } else {
         if (rows.rows.length == 0) {
           connection.query(
@@ -28,15 +28,15 @@ exports.reqistrasi = function (req, res) {
             [username, password.toString(), nama_lengkap, email],
             function (error, rows) {
               if (error) {
-                logger.error("Registrasi : " + error);
+                //logger.error("Registrasi : " + error);
               } else {
-                logger.info("Registrasi : Pendaftaran berhasil.");
+                //logger.info("Registrasi : Pendaftaran berhasil.");
                 res.json({ status: "00", message: "Pendaftaran berhasil!" });
               }
             }
           );
         } else {
-          logger.info("Registrasi : Username sudah terdaftar.");
+          //logger.info("Registrasi : Username sudah terdaftar.");
           res.json({ status: "99", message: "Username sudah terdaftar!" });
         }
       }
@@ -46,7 +46,7 @@ exports.reqistrasi = function (req, res) {
 
 //controller login
 exports.login = async function (req, res) {
-  logger.info("Login : Start login.");
+  //logger.info("Login : Start login.");
   var username = req.body.username;
   var password = md5(req.body.password);
   var captcha = req.body.captcha;
@@ -68,7 +68,7 @@ exports.login = async function (req, res) {
   //   }
   // )
   // .then(function (response) {
-  //   logger.info(
+  //   //logger.info(
   //     "Login - Response recaptcha : " + JSON.stringify(response.data)
   //   );
   //   if (response.data.success) {
@@ -77,7 +77,7 @@ exports.login = async function (req, res) {
     [username],
     function (error, rows) {
       if (error) {
-        logger.error("Login : " + error);
+        //logger.error("Login : " + error);
       } else {
         var data = rows.rows;
         if (data.length == 1) {
@@ -92,12 +92,12 @@ exports.login = async function (req, res) {
               [username],
               function (error, rows) {
                 if (error) {
-                  logger.error("Login : " + error);
+                  //logger.error("Login : " + error);
                 } else {
                   var data = rows.rows;
                   var role = "";
                   if (data[0].limit_login > 7) {
-                    logger.info(`Login : ${username} User locked.`);
+                    //logger.info(`Login : ${username} User locked.`);
                     res.json({
                       Error: true,
                       Message: "User locked.",
@@ -108,7 +108,7 @@ exports.login = async function (req, res) {
                       [username],
                       function (error, rows) {
                         if (error) {
-                          logger.error("Login : " + error);
+                          //logger.error("Login : " + error);
                         } else {
                           var duration = moment
                             .utc(Date.now())
@@ -122,7 +122,7 @@ exports.login = async function (req, res) {
                               [data[0].id],
                               function (error, rows) {
                                 if (error) {
-                                  logger.error("Login : " + error);
+                                  //logger.error("Login : " + error);
                                 } else {
                                   role = rows.rows[0].id_role;
                                 }
@@ -139,18 +139,18 @@ exports.login = async function (req, res) {
                               [now, user],
                               function (error, rows) {
                                 if (error) {
-                                  logger.error("Login : " + error);
+                                  //logger.error("Login : " + error);
                                 } else {
                                   connection.query(
                                     `INSERT INTO akses_token(username, access_token, ip_address) VALUES($1, $2, $3)`,
                                     [user, token, ip.address()],
                                     function (error, rows) {
                                       if (error) {
-                                        logger.error("Login : " + error);
+                                        //logger.error("Login : " + error);
                                       } else {
-                                        logger.info(
-                                          "Login : Token JWT tergenerate."
-                                        );
+                                        //logger.info(
+                                        //   "Login : Token JWT tergenerate."
+                                        // );
                                         res.json({
                                           success: true,
                                           message: "Token JWT tergenerate",
@@ -166,11 +166,11 @@ exports.login = async function (req, res) {
                               }
                             );
                           } else {
-                            logger.info(
-                              `Login : Login gagal. Akun anda ${username} sedang login pada perangkat / browser lain. Aktifitas terakhir : ` +
-                                duration +
-                                " menit yang lalu."
-                            );
+                            //logger.info(
+                            //   `Login : Login gagal. Akun anda ${username} sedang login pada perangkat / browser lain. Aktifitas terakhir : ` +
+                            //     duration +
+                            //     " menit yang lalu."
+                            // );
                             res.json({
                               status: "88",
                               message:
@@ -186,7 +186,7 @@ exports.login = async function (req, res) {
                       [data[0].id],
                       function (error, rows) {
                         if (error) {
-                          logger.error("Login : " + error);
+                          //logger.error("Login : " + error);
                         } else {
                           role = rows.rows[0].id_role;
                         }
@@ -203,18 +203,18 @@ exports.login = async function (req, res) {
                       [now, user],
                       function (error, rows) {
                         if (error) {
-                          logger.error("Login : " + error);
+                          //logger.error("Login : " + error);
                         } else {
                           connection.query(
                             `INSERT INTO akses_token(username, access_token, ip_address) VALUES($1, $2, $3)`,
                             [user, token, ip.address()],
                             function (error, rows) {
                               if (error) {
-                                logger.error("Login : " + error);
+                                //logger.error("Login : " + error);
                               } else {
-                                logger.info(
-                                  `Login : ${username} Token JWT tergenerate.`
-                                );
+                                //logger.info(
+                                //   `Login : ${username} Token JWT tergenerate.`
+                                // );
                                 res.json({
                                   success: true,
                                   message: "Token JWT tergenerate",
@@ -239,22 +239,22 @@ exports.login = async function (req, res) {
               [username],
               function (error, rows) {
                 if (error) {
-                  logger.error("Login : " + error);
+                  //logger.error("Login : " + error);
                 } else {
                   connection.query(
                     `SELECT limit_login FROM "user" WHERE username=$1`,
                     [username],
                     function (error, rows) {
                       if (error) {
-                        logger.error("Login : " + error);
+                        //logger.error("Login : " + error);
                       } else {
                         var limit = rows.rows[0].limit_login;
                         if (limit > 6) {
-                          logger.info(
-                            `Login : ${username} Mismatch account and password for ` +
-                              limit +
-                              " times. User locked"
-                          );
+                          //logger.info(
+                          //   `Login : ${username} Mismatch account and password for ` +
+                          //     limit +
+                          //     " times. User locked"
+                          // );
                           res.json({
                             Error: true,
                             Message:
@@ -263,9 +263,9 @@ exports.login = async function (req, res) {
                               " times. User locked",
                           });
                         } else {
-                          logger.info(
-                            `Login : ${username} Mismatch account and password`
-                          );
+                          //logger.info(
+                          //   `Login : ${username} Mismatch account and password`
+                          // );
                           res.json({
                             Error: true,
                             Message: "Mismatch account and password",
@@ -279,7 +279,7 @@ exports.login = async function (req, res) {
             );
           }
         } else {
-          logger.info(`Login : ${username} Mismatch account and password`);
+          //logger.info(`Login : ${username} Mismatch account and password`);
           res.json({
             Error: true,
             Message: "Mismatch account and password",
@@ -289,7 +289,7 @@ exports.login = async function (req, res) {
     }
   );
   // } else {
-  //   logger.info("Login : Failed verify captcha. Try again.");
+  //   //logger.info("Login : Failed verify captcha. Try again.");
   //   return res.json({
   //     status: "88",
   //     message: "Failed verify captcha. Try again.",
@@ -297,6 +297,6 @@ exports.login = async function (req, res) {
   // }
   // })
   // .catch(function (error) {
-  //   logger.error("Login : " + error);
+  //   //logger.error("Login : " + error);
   // });
 };

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/params");
-var logger = require("../config/log");
+// var logger = require("../config/log");
 
 function verifikasi() {
   return function (req, res, next) {
@@ -13,7 +13,7 @@ function verifikasi() {
       //verifikasi
       jwt.verify(token, config.secret, function (err, decoded) {
         if (err) {
-          logger.info("Verifikasi : Token tidak valid.");
+          //logger.info("Verifikasi : Token tidak valid.");
           return res
             .status(401)
             .send({ auth: false, message: "Token tidak valid." });
@@ -23,7 +23,7 @@ function verifikasi() {
         }
       });
     } else {
-      logger.info("Verifikasi : Token tidak tersedia.");
+      //logger.info("Verifikasi : Token tidak tersedia.");
       return res
         .status(401)
         .send({ auth: false, message: "Token tidak tersedia." });

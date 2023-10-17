@@ -5,7 +5,7 @@ var connection = require("../config/db");
 var md5 = require("md5");
 var CryptoJS = require("crypto-js");
 var config = require("../config/params");
-var logger = require("../config/log");
+// var logger = require("../config/log");
 var jwt = require("jsonwebtoken");
 
 exports.menu = function (req, res) {
@@ -18,10 +18,10 @@ exports.menu = function (req, res) {
     [id_role],
     function (error, rows, field) {
       if (error) {
-        logger.error("Menu : " + error);
+        //logger.error("Menu : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("Menu : " + JSON.stringify(data));
+        //logger.trace("Menu : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -38,13 +38,13 @@ exports.routes = function (req, res) {
     [id_role],
     function (error, rows, field) {
       if (error) {
-        logger.error("Routes : " + error);
+        //logger.error("Routes : " + error);
       } else {
         var data = rows.rows;
         var new_array = data.map(function (item) {
           return item.path;
         });
-        logger.trace("Routes : " + JSON.stringify(new_array));
+        //logger.trace("Routes : " + JSON.stringify(new_array));
         res.json({ status: "00", message: "Success", data: new_array });
       }
     }
@@ -56,10 +56,10 @@ exports.allUser = function (req, res) {
     `SELECT id, username, nama_lengkap, email, created_at, updated_at, limit_login from "user";`,
     function (error, rows, field) {
       if (error) {
-        logger.error("All User : " + error);
+        //logger.error("All User : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("All User : " + JSON.stringify(data));
+        //logger.trace("All User : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -69,10 +69,10 @@ exports.allUser = function (req, res) {
 exports.allRole = function (req, res) {
   connection.query(`SELECT * from role;`, function (error, rows, field) {
     if (error) {
-      logger.error("All Role : " + error);
+      //logger.error("All Role : " + error);
     } else {
       var data = rows.rows;
-      logger.trace("All Role : " + JSON.stringify(data));
+      //logger.trace("All Role : " + JSON.stringify(data));
       res.json({ status: "00", message: "Success", data: data });
     }
   });
@@ -81,10 +81,10 @@ exports.allRole = function (req, res) {
 exports.allMenu = function (req, res) {
   connection.query(`SELECT * from menu`, function (error, rows, field) {
     if (error) {
-      logger.error("All Menu : " + error);
+      //logger.error("All Menu : " + error);
     } else {
       var data = rows.rows;
-      logger.trace("All Menu : " + JSON.stringify(data));
+      //logger.trace("All Menu : " + JSON.stringify(data));
       res.json({ status: "00", message: "Success", data: data });
     }
   });
@@ -98,10 +98,10 @@ exports.allMenuExcId = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("All Menu Exc Id : " + error);
+        //logger.error("All Menu Exc Id : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("All Menu Exc Id : " + JSON.stringify(data));
+        //logger.trace("All Menu Exc Id : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -117,10 +117,10 @@ exports.insertRole = function (req, res) {
     [name],
     function (error, rows, field) {
       if (error) {
-        logger.error("Insert Role : " + error);
+        //logger.error("Insert Role : " + error);
       } else {
         if (rows.rows.length > 0) {
-          logger.info("Insert Role : Gagal. Terdapat role dengan nama sama.");
+          //logger.info("Insert Role : Gagal. Terdapat role dengan nama sama.");
           res.json({
             status: "99",
             message: "Gagal. Terdapat role dengan nama sama.",
@@ -131,9 +131,9 @@ exports.insertRole = function (req, res) {
             [name, deskripsi],
             function (error, rows, field) {
               if (error) {
-                logger.error("Insert Role : " + error);
+                //logger.error("Insert Role : " + error);
               } else {
-                logger.info("Insert Role : Success create role.");
+                //logger.info("Insert Role : Success create role.");
                 res.json({ status: "00", message: "Success create role." });
               }
             }
@@ -152,9 +152,9 @@ exports.deleteUser = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Delete User : " + error);
+        //logger.error("Delete User : " + error);
       } else {
-        logger.info("Delete User : Success delete user.");
+        //logger.info("Delete User : Success delete user.");
         res.json({
           status: "00",
           message: "Success delete user.",
@@ -172,9 +172,9 @@ exports.deleteMenu = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Delete Menu : " + error);
+        //logger.error("Delete Menu : " + error);
       } else {
-        logger.info("Delete Menu : Success delete menu");
+        //logger.info("Delete Menu : Success delete menu");
         res.json({
           status: "00",
           message: "Success delete menu.",
@@ -192,9 +192,9 @@ exports.deleteRole = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Delete Role : " + error);
+        //logger.error("Delete Role : " + error);
       } else {
-        logger.info("Delete Role : Success delete role.");
+        //logger.info("Delete Role : Success delete role.");
         res.json({
           status: "00",
           message: "Success delete role.",
@@ -216,12 +216,12 @@ exports.insertMenu = function (req, res) {
     [path],
     function (error, rows, field) {
       if (error) {
-        logger.error("Insert Menu : " + error);
+        //logger.error("Insert Menu : " + error);
       } else {
         if (rows.rows.length > 0) {
-          logger.info(
-            "Insert Menu : Gagal. Terdapat menu dengan path yang sama."
-          );
+          //logger.info(
+          //   "Insert Menu : Gagal. Terdapat menu dengan path yang sama."
+          // );
           res.json({
             status: "99",
             message: "Gagal. Terdapat menu dengan path yang sama.",
@@ -232,9 +232,9 @@ exports.insertMenu = function (req, res) {
             [label, path, icon, urutan, parent_id],
             function (error, rows, field) {
               if (error) {
-                logger.error("Insert Menu : " + error);
+                //logger.error("Insert Menu : " + error);
               } else {
-                logger.info("Insert Menu : Success create menu.");
+                //logger.info("Insert Menu : Success create menu.");
                 res.json({ status: "00", message: "Success create menu." });
               }
             }
@@ -254,7 +254,7 @@ exports.insertAkses = function (req, res) {
     [id_role, id_menu],
     function (error, rows, field) {
       if (error) {
-        logger.error("Insert Akses : " + error);
+        //logger.error("Insert Akses : " + error);
       } else {
         if (rows.rows.length > 0) {
           connection.query(
@@ -262,9 +262,9 @@ exports.insertAkses = function (req, res) {
             [id_role, id_menu],
             function (error, rows, field) {
               if (error) {
-                logger.error("Insert Akses : " + error);
+                //logger.error("Insert Akses : " + error);
               } else {
-                logger.info("Insert Akses : Success delete permission.");
+                //logger.info("Insert Akses : Success delete permission.");
                 res.json({
                   status: "00",
                   message: "Success delete permission.",
@@ -278,9 +278,9 @@ exports.insertAkses = function (req, res) {
             [id_role, id_menu],
             function (error, rows, field) {
               if (error) {
-                logger.error("Insert Akses : " + error);
+                //logger.error("Insert Akses : " + error);
               } else {
-                logger.info("Insert Akses : Success add permission.");
+                //logger.info("Insert Akses : Success add permission.");
                 res.json({ status: "00", message: "Success add permission." });
               }
             }
@@ -296,10 +296,10 @@ exports.allAssignment = function (req, res) {
     `SELECT u.id, username, r.name from "user" u LEFT JOIN assignment a ON u.id = a.id_user::int LEFT JOIN role r ON a.id_role::int = r.id`,
     function (error, rows, field) {
       if (error) {
-        logger.error("All Assignment : " + error);
+        //logger.error("All Assignment : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("All Assignment : " + JSON.stringify(data));
+        //logger.trace("All Assignment : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -314,10 +314,10 @@ exports.detailAssignment = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Detail Assignment : " + error);
+        //logger.error("Detail Assignment : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("Detail Assignment : " + JSON.stringify(data));
+        //logger.trace("Detail Assignment : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -332,9 +332,9 @@ exports.getDetailById = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Detail By ID : " + error);
+        //logger.error("Detail By ID : " + error);
       } else {
-        logger.trace("Detail By ID : " + JSON.stringify(rows.rows));
+        //logger.trace("Detail By ID : " + JSON.stringify(rows.rows));
         response.ok(rows.rows, "Succes.", res);
       }
     }
@@ -349,10 +349,10 @@ exports.getMenuById = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.trace("Get Menu By ID : " + error);
+        //logger.trace("Get Menu By ID : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("Get Menu By ID : " + JSON.stringify(data));
+        //logger.trace("Get Menu By ID : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -367,10 +367,10 @@ exports.getAksesById = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Get Akses By ID : " + error);
+        //logger.error("Get Akses By ID : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("Get Akses By ID : " + JSON.stringify(data));
+        //logger.trace("Get Akses By ID : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -385,10 +385,10 @@ exports.getAksesExcId = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Get Akses Exc ID : " + error);
+        //logger.error("Get Akses Exc ID : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("Get Akses Exc ID : " + JSON.stringify(data));
+        //logger.trace("Get Akses Exc ID : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -403,10 +403,10 @@ exports.getRoleById = function (req, res) {
     [id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Get Role By ID : " + error);
+        //logger.error("Get Role By ID : " + error);
       } else {
         var data = rows.rows;
-        logger.trace("Get Role By ID : " + JSON.stringify(data));
+        //logger.trace("Get Role By ID : " + JSON.stringify(data));
         res.json({ status: "00", message: "Success", data: data });
       }
     }
@@ -425,9 +425,9 @@ exports.editUser = function (req, res) {
     [nama_lengkap, email, username, limit_login, id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Edit User : " + error);
+        //logger.error("Edit User : " + error);
       } else {
-        logger.info("Edit User : Data behasil diupdate.");
+        //logger.info("Edit User : Data behasil diupdate.");
         res.json({ status: "00", message: "Data berhasil diupdate!" });
       }
     }
@@ -447,9 +447,9 @@ exports.editMenu = function (req, res) {
     [path, icon, label, urutan, parent_id, id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Edit Menu : " + error);
+        //logger.error("Edit Menu : " + error);
       } else {
-        logger.info("Edit Menu : Data berhasil diupdate.");
+        //logger.info("Edit Menu : Data berhasil diupdate.");
         res.json({ status: "00", message: "Data berhasil diupdate!" });
       }
     }
@@ -466,9 +466,9 @@ exports.editRole = function (req, res) {
     [deskripsi, name, id],
     function (error, rows, field) {
       if (error) {
-        logger.error("Edit Role : " + error);
+        //logger.error("Edit Role : " + error);
       } else {
-        logger.info("Edit Role : Data berhasil diupdate.");
+        //logger.info("Edit Role : Data berhasil diupdate.");
         res.json({ status: "00", message: "Data berhasil diupdate!" });
       }
     }
@@ -484,7 +484,7 @@ exports.editAssignment = function (req, res) {
     [id_user],
     function (error, rows, field) {
       if (error) {
-        logger.error("Edit Assignment : " + error);
+        //logger.error("Edit Assignment : " + error);
       } else {
         if (rows.rows.length > 0) {
           connection.query(
@@ -492,9 +492,9 @@ exports.editAssignment = function (req, res) {
             [id_role, id_user],
             function (error, rows, field) {
               if (error) {
-                logger.error("Edit Assignment : " + error);
+                //logger.error("Edit Assignment : " + error);
               } else {
-                logger.info("Edit Assignment : Data berhasil diupdate.");
+                //logger.info("Edit Assignment : Data berhasil diupdate.");
                 res.json({ status: "00", message: "Data berhasil diupdate!" });
               }
             }
@@ -505,9 +505,9 @@ exports.editAssignment = function (req, res) {
             [id_user, id_role],
             function (error, rows, field) {
               if (error) {
-                logger.error("Edit Assignment : " + error);
+                //logger.error("Edit Assignment : " + error);
               } else {
-                logger.info("Edit Assignment : Data berhasil diupdate.");
+                //logger.info("Edit Assignment : Data berhasil diupdate.");
                 res.json({ status: "00", message: "Data berhasil diupdate!" });
               }
             }
@@ -526,9 +526,9 @@ exports.getDetailUser = function (req, res) {
     [username],
     function (error, rows, field) {
       if (error) {
-        logger.error("Get Detail User : " + error);
+        //logger.error("Get Detail User : " + error);
       } else {
-        logger.trace("Get Detail User : " + JSON.stringify(rows.rows));
+        //logger.trace("Get Detail User : " + JSON.stringify(rows.rows));
         response.ok(rows.rows, "Succes.", res);
       }
     }
@@ -545,9 +545,9 @@ exports.editProfil = function (req, res) {
     [nama_lengkap, email, username],
     function (error, rows, field) {
       if (error) {
-        logger.error("Edit Profil : " + error);
+        //logger.error("Edit Profil : " + error);
       } else {
-        logger.info("Edit Profil : Data berhasil diupdate.");
+        //logger.info("Edit Profil : Data berhasil diupdate.");
         res.json({ message: "Data berhasil diupdate!" });
       }
     }
@@ -577,9 +577,9 @@ exports.ubahPassword = function (req, res) {
     count_number === 0 ||
     count_lower + count_upper + count_number < 8
   ) {
-    logger.info(
-      "Ubah Password : Password baru anda tidak sesuai dengan ketentuan."
-    );
+    //logger.info(
+    //   "Ubah Password : Password baru anda tidak sesuai dengan ketentuan."
+    // );
     res.json({
       error: "true",
       message: "Password baru anda tidak sesuai dengan ketentuan.",
@@ -590,7 +590,7 @@ exports.ubahPassword = function (req, res) {
       [username],
       function (error, rows, field) {
         if (error) {
-          logger.error("Ubah Password : " + error);
+          //logger.error("Ubah Password : " + error);
         } else {
           var data = rows.rows;
           var decrypted_pass = CryptoJS.AES.decrypt(
@@ -604,9 +604,9 @@ exports.ubahPassword = function (req, res) {
               [new_password.toString(), username],
               function (error, rows, field) {
                 if (error) {
-                  logger.error("Ubah Password : " + error);
+                  //logger.error("Ubah Password : " + error);
                 } else {
-                  logger.info("Ubah Password : Change password success.");
+                  //logger.info("Ubah Password : Change password success.");
                   res.json({
                     error: "false",
                     message: "Change password success.",
@@ -615,7 +615,7 @@ exports.ubahPassword = function (req, res) {
               }
             );
           } else {
-            logger.info("Ubah Password : Wrong old password.");
+            //logger.info("Ubah Password : Wrong old password.");
             res.json({ error: "true", message: "Wrong old password." });
           }
         }
@@ -632,9 +632,9 @@ exports.logout = function (req, res) {
     [username],
     function (error, rows, field) {
       if (error) {
-        logger.error("Logout : " + error);
+        //logger.error("Logout : " + error);
       } else {
-        logger.info("Logout : Berhasil logout.");
+        //logger.info("Logout : Berhasil logout.");
         res.json({
           status: "00",
           message: "Berhasil logout",

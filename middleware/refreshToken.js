@@ -1,7 +1,7 @@
 var connection = require("../config/db");
 var jwt = require("jsonwebtoken");
 var config = require("../config/params");
-var logger = require("../config/log");
+// var logger = require("../config/log");
 const moment = require("moment");
 
 exports.refresh = function (req, res) {
@@ -12,7 +12,7 @@ exports.refresh = function (req, res) {
     [username],
     function (error, rows) {
       if (error) {
-        logger.error("Refresh : " + error);
+        //logger.error("Refresh : " + error);
       } else {
         var data = rows.rows;
         var datetime = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
@@ -21,12 +21,12 @@ exports.refresh = function (req, res) {
           [datetime, username],
           function (error, rows) {
             if (error) {
-              logger.error("Refresh : " + error);
+              //logger.error("Refresh : " + error);
             } else {
               var refresh_token = jwt.sign({ data }, config.secret, {
                 expiresIn: "600000",
               });
-              logger.info("Refresh : Token JWT tergenerate");
+              //logger.info("Refresh : Token JWT tergenerate");
               res.json({
                 success: true,
                 message: "Token JWT tergenerate",
